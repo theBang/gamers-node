@@ -1,0 +1,14 @@
+{
+  "name": "gamers-node",
+  "version": "1.0.0",
+  "description": "Node.js script for creating a gamers postgresql table from a CSV file.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theBang/gamers-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
