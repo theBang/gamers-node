@@ -24,6 +24,10 @@ function asyncCall(callback) {
         res.sendFile(path.join(__dirname, "views", "players.html"));
     });
 
+    app.use((err, req, res, next) => {
+        console.error(err.stack)
+        res.status(500).send('Something broke!')
+    })
 
     app.listen(3000, err => console.log(err ? "Error listening" : "Listening"))
 })();

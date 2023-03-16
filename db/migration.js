@@ -11,6 +11,5 @@ module.exports = async function migrate(query) {
         status boolean NOT NULL
     );
     `, constants.PLAYERS);
-    console.log(createTableText);
     await query(createTableText);
 }
