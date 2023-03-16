@@ -1,4 +1,5 @@
 const format = require('pg-format');
+const constants = require("./constants.json");
 
 module.exports = async function migrate(query) {
     const createTableText = format(`
@@ -9,7 +10,7 @@ module.exports = async function migrate(query) {
         registered integer NOT NULL,
         status boolean NOT NULL
     );
-    `, "players");
+    `, constants.PLAYERS);
     console.log(createTableText);
     await query(createTableText);
 }
