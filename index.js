@@ -1,10 +1,29 @@
 require("dotenv").config();
-const { query } = require("./db");
-const format = require('pg-format');
+const path = require("path");;
+const db = require("./db");
 const startDb = require("./db/start");
+const express = require("express");
+
+function asyncCall(callback) {
+    return function (req, res, next) {
+        callback(req, res, next).catch(next)
+    }
+}
 
 (async function () {
     await startDb();
-    const { rows } = await query(format("SELECT * FROM %I", "players"));
-    console.log(rows);
+
+    const app = express();
+    app.use("/static", express.static((path.join(__dirname, "public"))));
+    app.get("/api/players", asyncCall(async function (req, res) {
+        const { rows } = await db.getPlayers();
+        res.json(rows);
+    }));
+
+    app.get("/", function (req, res) {
+        res.sendFile(path.join(__dirname, "views", "players.html"));
+    });
+
+
+    app.listen(3000, err => console.log(err ? "Error listening" : "Listening"))
 })();
