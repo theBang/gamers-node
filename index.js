@@ -3,12 +3,7 @@ const path = require("path");
 const { promises: fs } = require("fs");
 const { parse } = require("csv-parse");
 const { Client } = require("pg");
-
-const NICKNAME = "Ник";
-const EMAIL = "Email";
-const REGISTERED = "Зарегистрирован";
-const STATUS = "Статус";
-const ON = "ON";
+const head = require("./data/head.json")
 
 async function parseCsv(filePath) {
     const content = await fs.readFile(filePath);
@@ -51,10 +46,11 @@ function parseDate(dateString) {
     for await (const record of records) {
         console.log(record);
         const values = [
-            record[NICKNAME], 
-            record[EMAIL], 
-            parseDate(record[REGISTERED]), 
-            record[STATUS] === ON];
+            record[head.NICKNAME], 
+            record[head.EMAIL], 
+            parseDate(record[head.REGISTERED]), 
+            record[head.STATUS] === head.ON
+        ];
         await client.query(insertText, values);
     }
 
