@@ -14,6 +14,10 @@ function asyncCall(callback) {
 
 app.use("/static", express.static((path.join(__dirname, "public"))));
 
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "views", "players.html"));
+});
+
 app.get("/api/players", asyncCall(async function (req, res) {
     const players = await db.findPlayers({
         select: {
@@ -32,10 +36,6 @@ app.get("/api/players", asyncCall(async function (req, res) {
 
     res.json(players);
 }));
-
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "views", "players.html"));
-});
 
 app.use((err, req, res, next) => {
     console.error(err.stack)
