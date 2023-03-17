@@ -1,14 +1,26 @@
-const { Pool } = require('pg');
-const pool = new Pool();
-const format = require('pg-format');
-const constants = require("./constants.json");
+const dataSource = require("./data-source");
+const User = require("./entity/Player");
+const seed = require("./seed");
 
-function query(text, params) {
-    return pool.query(text, params);
+function getDataSource() {
+    dataSource
+        .initialize()
+        .then(() => {
+            seed(dataSource);
+        })
+        .then(() => {
+            console.log("Data Source has been initialized!");
+        })
+        .catch((err) => {
+            console.error("Error during Data Source initialization:", err)
+        })
+
+    return dataSource;
 }
 
-function getPlayers() {
-    return query(format("SELECT nickname, email, registered, status FROM %I order by registered", constants.PLAYERS));
+module.exports = {
+    getDataSource,
+    entities: {
+        User
+    }
 }
-
-module.exports = { query, getPlayers };

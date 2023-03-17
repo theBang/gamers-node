@@ -2,7 +2,9 @@ const { promises: fs } = require("fs");
 const { parse } = require("csv-parse");
 const format = require('pg-format');
 const constants = require("./constants.json");
-const head = require("../data/head.json")
+const head = require("../data/head.json");
+const Player = require("./entity/Player");
+const path = require("path");
 
 async function parseCsv(filePath) {
     const content = await fs.readFile(filePath);
@@ -13,24 +15,27 @@ async function parseCsv(filePath) {
     });
 }
 
-module.exports = async function seed(query, csvPath) {
-    const records = await parseCsv(csvPath);
-    await query(format("DELETE FROM %I", constants.PLAYERS));
-
+module.exports = async function seed(dataSource) {
+    const records = await parseCsv(path.resolve(__dirname, "..", "data", "players.csv"));
+    const players = [];
     for await (const record of records) {
-        const insertText = format(`
-        INSERT INTO %I(nickname, email, registered, status) VALUES(
-            %L, 
-            %L, 
-            cast(extract(epoch from to_timestamp(%L, 'DD.MM.YYYY HH24:MI')::timestamp) as integer), 
-            %L
-        );
-        `, constants.PLAYERS,
-            record[head.NICKNAME],
-            record[head.EMAIL],
-            record[head.REGISTERED],
-            record[head.STATUS] === head.ON
-        );
-        await query(insertText);
+        players.push({
+            nickname: record[head.NICKNAME],
+            email: record[head.EMAIL],
+            registered: () => format("cast(extract(epoch from to_timestamp(%L, 'DD.MM.YYYY HH24:MI')::timestamp) as integer)", record[head.REGISTERED]),
+            status: record[head.STATUS] === head.ON
+        })
     }
+
+    const playerRepo = await dataSource.getRepository(Player);
+    await playerRepo.delete({});
+    await dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(Player)
+        .values(players)
+        .orUpdate({
+            skipUpdateIfNoValuesChanged: true
+        })
+        .execute()
 }
