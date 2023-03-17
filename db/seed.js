@@ -1,7 +1,6 @@
 const { promises: fs } = require("fs");
 const { parse } = require("csv-parse");
 const format = require('pg-format');
-const constants = require("./constants.json");
 const head = require("../data/head.json");
 const Player = require("./entity/Player");
 const path = require("path");
