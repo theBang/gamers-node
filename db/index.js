@@ -2,7 +2,7 @@ const dataSource = require("./data-source");
 const User = require("./entity/Player");
 const seed = require("./seed");
 
-function getDataSource() {
+function init() {
     dataSource
         .initialize()
         .then(() => {
@@ -14,13 +14,13 @@ function getDataSource() {
         .catch((err) => {
             console.error("Error during Data Source initialization:", err)
         })
+}
 
-    return dataSource;
+function findPlayers(options) {
+    return dataSource.getRepository(User).find(options);
 }
 
 module.exports = {
-    getDataSource,
-    entities: {
-        User
-    }
+    init,
+    findPlayers
 }
