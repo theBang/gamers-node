@@ -1,8 +1,8 @@
 const { EntitySchema } = require("typeorm");
 
 module.exports = new EntitySchema({
-    name: "Player", // Will use table name `category` as default behaviour.
-    tableName: "players_3", // Optional: Provide `tableName` property to override the default behaviour for table name.
+    name: "Player",
+    tableName: "players",
     columns: {
         id: {
             primary: true,
