@@ -8,6 +8,5 @@ module.exports = new DataSource({
     password: process.env.PGPASSWORD,
     database: process.env.PGDATABASE,
     entities: [require("./entity/Player")],
-    logging: true,
     synchronize: true
 });
