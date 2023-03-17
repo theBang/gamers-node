@@ -2,6 +2,7 @@ require("dotenv").config();
 const path = require("path");;
 const db = require("./db");
 const express = require("express");
+const open = require('open');
 
 const app = express();
 db.init();
@@ -42,4 +43,7 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!')
 })
 
-app.listen(3000, err => console.log(err ? "Error listening" : "Listening"))
+app.listen(3000, err => {
+    console.log(err ? "Error listening" : "Listening");
+    open("http://localhost:3000/");
+})
