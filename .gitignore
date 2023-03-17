@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # Add ignore data
-data/
+data/players.csv
