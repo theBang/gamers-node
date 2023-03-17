@@ -43,7 +43,8 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!')
 })
 
-app.listen(3000, err => {
+const port = process.env.PORT || 3000;
+app.listen(port, err => {
     console.log(err ? "Error listening" : "Listening");
-    open("http://localhost:3000/");
+    open(`http://localhost:${port}/`);
 })
