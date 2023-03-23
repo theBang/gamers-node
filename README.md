@@ -1,20 +1,33 @@
 # gamers-node
-Node.js script for creating a gamers postgresql table from a CSV file.
+Node.js app for creating a players postgresql table from a CSV file.
 
-Script:
+App:
 1. Creates a PosgreSQL table named `players`.
 2. Parses data from `data/players.csv`.
 3. Inserts the data into the table.
 4. Starts an express server.
 5. Opens a browser page with the inserted data fetched from the server.
+## Installation
 
-Before starting the script:
-1. Install PorstgreSQL.
-2. Create `.env` from the `.env.example`.
-3. Create `data/players.csv` from `data/players.example.csv`.
+Install [Node.js](https://nodejs.org/en/download/).
 
-To start the script:
+Install [PorstgreSQL](https://www.postgresql.org/download/).
 
-`npm install`
+Clone the repository and change directory:
 
-`npm start`
+    git clone https://github.com/theBang/gamers-node.git
+    cd gamers-node
+
+Create `.env` from the `.env.example`.
+
+Create `data/players.csv` from `data/players.example.csv`.
+
+Install dependencies: 
+    
+    npm install
+
+## Usage
+
+To start the app:
+
+    npm start
