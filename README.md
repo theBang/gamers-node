@@ -1,5 +1,5 @@
 # gamers-node
-Node.js app for creating a players postgresql table from a CSV file.
+Node.js (Express + TypeORM) app for creating a players postgresql table from a CSV file.
 
 App:
 1. Creates a PosgreSQL table named `players`.
